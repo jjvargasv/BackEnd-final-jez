@@ -1,6 +1,7 @@
 const { Router } = require( 'express' );
 const { createUser, authenticateUser, renewToken } = require('../controllers/auth.controller');
 const { check } = require('express-validator');
+const validateInputFields = require('../middleware/validate-input-fields.middleware');
 
 const router = Router();
 
@@ -8,7 +9,9 @@ const router = Router();
 router.post( 
     '/register', 
     [
-        check( 'name', '\'name\' doesn\'t exists').exists(),
+        check( 'name', '\'name\' doesn\'t exists').exists()
+            .not().isEmpty()
+            .withMessage( 'Name is required' ),
         check( 'email', 'Email is required' )
             .trim()
             .isEmail(),
@@ -16,6 +19,7 @@ router.post(
             .trim()
             .isLength({ min: 8 })
             .withMessage( 'Must be at least 8 chars long' ),
+        validateInputFields
     ], 
     createUser 
 );
@@ -29,6 +33,7 @@ router.post(
         check( 'password', 'Password is required' )
             .trim()
             .isLength({ min: 8 }),
+        validateInputFields
     ],
     authenticateUser 
 );
