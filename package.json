@@ -1,0 +1,12 @@
+{
+  "name": "backend-auth",
+  "version": "1.0.0",
+  "description": "API Rest Authentication Example",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "author": "Juan Carlos Jiménez Gutiérrez <jcjimenez29@misena.edu.co>",
+  "license": "ISC"
+}
