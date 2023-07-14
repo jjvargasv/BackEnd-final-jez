@@ -1,6 +1,7 @@
 const { response, request } = require( 'express' );
 const User = require('../models/User');
-const { genSalt, hashSync, genSaltSync } = require( 'bcryptjs' );
+const { hashSync, genSaltSync } = require( 'bcryptjs' );
+const { generateToken } = require( '../helpers/jwt.js' );
 
 
 const createUser = async ( req = request, res = response ) => {
@@ -28,9 +29,10 @@ const createUser = async ( req = request, res = response ) => {
         dbUser.password = hashSync( password, salt );
 
         // 3. Generar el JWT, como metodo de autenticación pasiva
+        const token = await generateToken( dbUser._id, name );
 
         // 4. Registrar usuario en la base de datos
-        const newUser = dbUser.save();
+        const newUser = await dbUser.save();
 
         // 5. Responder al cliente
         console.log( newUser );
@@ -38,6 +40,7 @@ const createUser = async ( req = request, res = response ) => {
             ok: true,
             path: '/register',
             msg: 'Usuario creado existosamente',
+            token,
             user: newUser
         }); 
     } 
