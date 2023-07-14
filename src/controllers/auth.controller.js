@@ -1,5 +1,6 @@
 const { response, request } = require( 'express' );
 const User = require('../models/User');
+const { genSalt, hashSync, genSaltSync } = require( 'bcryptjs' );
 
 
 const createUser = async ( req = request, res = response ) => {
@@ -22,6 +23,9 @@ const createUser = async ( req = request, res = response ) => {
         const dbUser = new User( req.body );
 
         // 2. Encriptar la contraseña
+        const salt = genSaltSync();
+        
+        dbUser.password = hashSync( password, salt );
 
         // 3. Generar el JWT, como metodo de autenticación pasiva
 
