@@ -107,11 +107,17 @@ const loginUser = async ( req = request, res = response ) => {
 
 }
 
-const renewToken = ( req = request, res = response ) => {
+const renewToken = async ( req = request, res = response ) => {
+
+    const { uid, name } = req.authUser;
+
+    // 1. Generar el JWT, como metodo de autenticación pasiva
+    const token = await generateToken( uid, name );
 
     return res.json({
         path: '/renew',
-        msg: 'Renovar token'
+        msg: 'Token renovado',
+        token
     });
 }
 
