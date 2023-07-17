@@ -1,5 +1,5 @@
 const { Router } = require( 'express' );
-const { createUser, authenticateUser, renewToken } = require('../controllers/auth.controller');
+const { createUser, loginUser, renewToken } = require('../controllers/auth.controller');
 const { check } = require('express-validator');
 const validateInputFields = require('../middlewares/validate-input-fields.middleware');
 
@@ -35,7 +35,7 @@ router.post(
             .isLength({ min: 8 }),
         validateInputFields
     ],
-    authenticateUser 
+    loginUser 
 );
 router.get( '/renew', renewToken );
 

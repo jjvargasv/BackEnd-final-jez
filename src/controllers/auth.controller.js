@@ -1,6 +1,6 @@
 const { response, request } = require( 'express' );
 const User = require('../models/User');
-const { hashSync, genSaltSync } = require( 'bcryptjs' );
+const { hashSync, genSaltSync, compareSync } = require( 'bcryptjs' );
 const { generateToken } = require( '../helpers/jwt.js' );
 
 
@@ -55,12 +55,56 @@ const createUser = async ( req = request, res = response ) => {
 
 }
 
-const authenticateUser = ( req = request, res = response ) => {
+const loginUser = async ( req = request, res = response ) => {
 
-    return res.json({
-        path: '/login',
-        msg: 'Login de usuario'
-    });
+    const { email, password } = req.body;
+
+    try {
+        // 1. Verificar que existe el 'email'
+        const userFound = await User.findOne({ email });
+
+        if( ! userFound ) {
+            return res.status( 400 ).json({
+                ok: false,
+                path: '/login',
+                msg: 'El email del usuario no existe'
+            });
+        }
+
+        // 2. Confirmamos si el password hace match
+        const isValidPassword = compareSync( password, userFound.password );
+    
+        if( ! isValidPassword ) {
+            return res.status( 400 ).json({
+                ok: false,
+                path: '/login',
+                msg: 'El password no es valido'
+            });
+        }
+
+        // 3. Generar el JWT, como metodo de autenticación pasiva
+        const token = await generateToken( userFound._id, userFound.name );
+
+
+        // 5. Responder al cliente
+        console.log( userFound );
+        res.status( 201 ).json({
+            ok: true,
+            path: '/login',
+            msg: 'Usuario se ha logueado existosamente',
+            token,
+            user: userFound
+        }); 
+    } 
+    catch ( error ) {
+        console.log( error );
+        return res.status( 500 ).json({
+            ok: false,
+            path: '/login',
+            msg: 'Error al loguear usuario'
+        }); 
+    }
+
 }
 
 const renewToken = ( req = request, res = response ) => {
@@ -73,6 +117,6 @@ const renewToken = ( req = request, res = response ) => {
 
 module.exports = {
     createUser,
-    authenticateUser,
+    loginUser,
     renewToken
 }
