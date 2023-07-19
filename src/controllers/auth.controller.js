@@ -115,6 +115,7 @@ const renewToken = async ( req = request, res = response ) => {
     const token = await generateToken( uid, name );
 
     return res.json({
+        ok: true,
         path: '/renew',
         msg: 'Token renovado',
         token
