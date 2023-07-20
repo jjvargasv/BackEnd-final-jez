@@ -134,7 +134,8 @@ const renewToken = async ( req = request, res = response ) => {
         token,
         id: uid,
         name,
-        email: userFound.email
+        email: userFound.email,
+        role: userFound.role
     });
 }
 
