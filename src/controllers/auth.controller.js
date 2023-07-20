@@ -41,7 +41,9 @@ const createUser = async ( req = request, res = response ) => {
             path: '/register',
             msg: 'Usuario creado existosamente',
             token,
-            user: newUser
+            id: newUser.id,
+            name: newUser.name,
+            email: newUser.email
         }); 
     } 
     catch ( error ) {
@@ -111,14 +113,28 @@ const renewToken = async ( req = request, res = response ) => {
 
     const { uid, name } = req.authUser;
 
-    // 1. Generar el JWT, como metodo de autenticación pasiva
+    // 1. Verificar que existe el 'email'
+    const userFound = await User.findById( uid );
+
+    if( ! userFound ) {
+        return res.status( 400 ).json({
+            ok: false,
+            path: '/renew',
+            msg: 'No renueva el token el usuario no existe'
+        });
+    }
+
+    // 2. Generar el JWT, como metodo de autenticación pasiva
     const token = await generateToken( uid, name );
 
     return res.json({
         ok: true,
         path: '/renew',
         msg: 'Token renovado',
-        token
+        token,
+        id: uid,
+        name,
+        email: userFound.email
     });
 }
 
