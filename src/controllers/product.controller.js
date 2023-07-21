@@ -2,7 +2,7 @@ const { response, request } = require( 'express' );
 const { hashSync, genSaltSync, compareSync } = require( 'bcryptjs' );
 
 const { generateToken } = require( '../helpers/jwt.js' );
-const { insertProduct } = require( '../services/product.service' );
+const { insertProduct, getAllProducts } = require( '../services/product.service' );
 
 const User = require( '../models/User' );
 
@@ -10,10 +10,13 @@ const User = require( '../models/User' );
 const getProducts = async ( req = request, res = response ) => {
 
     try {
+        const data = await getAllProducts()   // Pendiente
+
         res.status( 201 ).json({
             ok: true,
             path: '/products',
-            msg: 'Obtiene todos los productos'
+            msg: 'Obtiene todos los productos',
+            products: data
         }); 
     } 
     catch ( error ) {
@@ -54,14 +57,11 @@ const createProduct = async ( req = request, res = response ) => {
     try {
         const data = await insertProduct( inputData );
 
-        console.log( data );
-        res.json( data );
-
-
         res.status( 201 ).json({
             ok: true,
             path: '/products',
-            msg: 'Crea producto'
+            msg: 'Crea producto',
+            product: data
         }); 
     } 
     catch ( error ) {
