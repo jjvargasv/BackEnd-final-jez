@@ -20,16 +20,19 @@ router.get(
 
 router.post( 
     '/', 
+    validateToken,
     createProduct
 );
 
 router.patch( 
     '/:id', 
+    validateToken,
     updateProduct
 );
 
 router.delete( 
     '/:id', 
+    validateToken,
     deleteProduct
 );
 
