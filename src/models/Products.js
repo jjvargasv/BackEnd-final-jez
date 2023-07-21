@@ -1,5 +1,5 @@
 /** La estructura que definamos aqui se vera reflejada en nuestra base de datos */
-import { Schema, model } from "mongoose";
+const { Schema, model } = require( 'mongoose' );
 
 
 /** Define estructura de datos en la base de datos requerida por Mongoose*/
@@ -49,4 +49,4 @@ const productSchema = new Schema(
 const ProductModel = model( 'Products', productSchema  );
 
 
-export default ProductModel;
+module.exports = ProductModel;

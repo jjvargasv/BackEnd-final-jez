@@ -1,4 +1,4 @@
-import ProductModel from "../models/products.model";
+const ProductModel = require( '../models/Products.js' );
 
 
 const insertProduct = async ( product ) => {
@@ -26,7 +26,7 @@ const updateProductById = async ( productId, updateProduct ) => {
 }
 
 
-export {
+module.exports = {
     insertProduct,
     getAllProducts,
     getProductById,
