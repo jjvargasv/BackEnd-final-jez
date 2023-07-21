@@ -3,64 +3,36 @@ const { createUser, loginUser, renewToken } = require('../controllers/auth.contr
 const { check } = require('express-validator');
 const validateInputFields = require('../middlewares/validate-input-fields.middleware');
 const { validateToken } = require('../middlewares/validate-jwt.middleware');
+const { getProducts, createProduct, getProductById, updateProduct, deleteProduct } = require('../controllers/product.controller');
 
 const router = Router();
 
 
 router.get( 
     '/', 
-    ( req, res ) => {
-        res.json({
-            ok: true,
-            path: '/products',
-            msg: 'Obtiene todos los productos'
-        });
-    } 
+    getProducts
 );
 
 router.get( 
     '/:id', 
-    ( req, res ) => {
-        res.json({
-            ok: true,
-            path: '/products',
-            msg: 'Obtiene producto por ID'
-        });
-    } 
+    getProductById
 );
 
 router.post( 
     '/', 
-    ( req, res ) => {
-        res.json({
-            ok: true,
-            path: '/products',
-            msg: 'Crear producto'
-        });
-    } 
+    createProduct
 );
 
 router.patch( 
     '/:id', 
-    ( req, res ) => {
-        res.json({
-            ok: true,
-            path: '/products',
-            msg: 'Actualizar parcialmente producto'
-        });
-    } 
+    updateProduct
 );
 
 router.delete( 
     '/:id', 
-    ( req, res ) => {
-        res.json({
-            ok: true,
-            path: '/products',
-            msg: 'Eliminar producto'
-        });
-    } 
+    deleteProduct
 );
+
 
 
 module.exports = router;
