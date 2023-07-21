@@ -15,7 +15,10 @@ const
 app.use( express.static( 'public') );   // Directorio público
 app.use( cors() );              // Cross-Origin-Resources-Sharing
 app.use( express.json() );      // Lectura Parseo del body
+
+/** Define todas las rutas */
 app.use( '/api/auth', require( './routes/auth.routes' ) );
+app.use( '/api/products', require( './routes/products.routes' ) );
 
 dbConnection();                 // Invoca la inicializacion de la base de datos
 
