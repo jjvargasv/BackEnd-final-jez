@@ -2,7 +2,7 @@ const { response, request } = require( 'express' );
 const { hashSync, genSaltSync, compareSync } = require( 'bcryptjs' );
 
 const { generateToken } = require( '../helpers/jwt.js' );
-const { insertProduct, getAllProducts, getProductByID, updateProductByID } = require( '../services/product.service' );
+const { insertProduct, getAllProducts, getProductByID, updateProductByID, removeProductByID } = require( '../services/product.service' );
 
 const User = require( '../models/User' );
 
@@ -105,19 +105,23 @@ const updateProduct = async ( req = request, res = response ) => {
 }
 
 const deleteProduct = async ( req = request, res = response ) => {
+    const productId = req.params.id;
 
     try {
+        const data = await removeProductByID( productId );
+
         res.status( 201 ).json({
             ok: true,
-            path: '/products',
-            msg: 'Eliminar producto'
+            path: `/products/${ productId }`,
+            msg: 'Eliminar producto',
+            product: data
         }); 
     } 
     catch ( error ) {
         console.log( error );
         return res.status( 500 ).json({
             ok: false,
-            path: '/products',
+            path: `/products/${ productId }`,
             msg: 'Error al eliminar producto'
         });    
     }
