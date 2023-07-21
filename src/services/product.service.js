@@ -9,15 +9,15 @@ const getAllProducts = async () => {
     return await ProductModel.find({});
 }
 
-const getProductById = async ( productId ) => {
+const getProductByID = async ( productId ) => {
     return await ProductModel.findOne({ _id: productId });
 }
 
-const removeProductById = async ( productId ) => {
+const removeProductByID = async ( productId ) => {
     return await ProductModel.findOneAndRemove({ _id: productId });
 }
 
-const updateProductById = async ( productId, updateProduct ) => {
+const updateProductByID = async ( productId, updateProduct ) => {
     return await ProductModel.findOneAndUpdate( 
         { _id: productId },     // Id del documento que deseamos actualizar
         updateProduct,          // El documento por el que vamos a actualizar 
@@ -29,7 +29,7 @@ const updateProductById = async ( productId, updateProduct ) => {
 module.exports = {
     insertProduct,
     getAllProducts,
-    getProductById,
-    removeProductById,
-    updateProductById
+    getProductByID,
+    removeProductByID,
+    updateProductByID
 }

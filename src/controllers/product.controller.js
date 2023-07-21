@@ -2,7 +2,7 @@ const { response, request } = require( 'express' );
 const { hashSync, genSaltSync, compareSync } = require( 'bcryptjs' );
 
 const { generateToken } = require( '../helpers/jwt.js' );
-const { insertProduct, getAllProducts } = require( '../services/product.service' );
+const { insertProduct, getAllProducts, getProductByID } = require( '../services/product.service' );
 
 const User = require( '../models/User' );
 
@@ -31,19 +31,24 @@ const getProducts = async ( req = request, res = response ) => {
 }
 
 const getProductById = async ( req = request, res = response ) => {
+    const productId = req.params.id;
+    console.log( productId );
 
     try {
+        const data = await getProductByID( productId );
+
         res.status( 201 ).json({
             ok: true,
-            path: '/products',
-            msg: 'Obtiene producto por ID'
+            path: `/products/${ productId }`,
+            msg: 'Obtiene producto por ID',
+            product: data
         }); 
     } 
     catch ( error ) {
         console.log( error );
         return res.status( 500 ).json({
             ok: false,
-            path: '/products',
+            path: `/products/${ productId }`,
             msg: 'Error al obtener producto por ID'
         });    
     }
