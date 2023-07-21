@@ -56,8 +56,11 @@ const getProductById = async ( req = request, res = response ) => {
 
 const createProduct = async ( req = request, res = response ) => {
     const inputData = req.body;
+    const userId = req.authUser.uid;
 
     try {
+        inputData.userId = userId;
+
         const data = await insertProduct( inputData );
 
         res.status( 201 ).json({

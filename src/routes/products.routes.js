@@ -7,29 +7,37 @@ const { getProducts, createProduct, getProductById, updateProduct, deleteProduct
 
 const router = Router();
 
+/** 
+ * Ruta actual: http://localhost:5000/api/products
+ */
 
+// Ruta para obtener todos los productos
 router.get( 
     '/', 
     getProducts
 );
 
+// Ruta para obtener producto por ID
 router.get( 
     '/:id', 
     getProductById
 );
 
+// Ruta para crear producto (Restringida)
 router.post( 
     '/', 
     validateToken,
     createProduct
 );
 
+// Ruta para actualizar producto (Restringida)
 router.patch( 
     '/:id', 
     validateToken,
     updateProduct
 );
 
+// Ruta para eliminar producto (Restringida)
 router.delete( 
     '/:id', 
     validateToken,
