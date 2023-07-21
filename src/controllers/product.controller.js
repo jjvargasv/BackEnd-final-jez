@@ -2,7 +2,7 @@ const { response, request } = require( 'express' );
 const { hashSync, genSaltSync, compareSync } = require( 'bcryptjs' );
 
 const { generateToken } = require( '../helpers/jwt.js' );
-const { insertProduct, getAllProducts, getProductByID } = require( '../services/product.service' );
+const { insertProduct, getAllProducts, getProductByID, updateProductByID } = require( '../services/product.service' );
 
 const User = require( '../models/User' );
 
@@ -32,7 +32,6 @@ const getProducts = async ( req = request, res = response ) => {
 
 const getProductById = async ( req = request, res = response ) => {
     const productId = req.params.id;
-    console.log( productId );
 
     try {
         const data = await getProductByID( productId );
@@ -56,7 +55,6 @@ const getProductById = async ( req = request, res = response ) => {
 }
 
 const createProduct = async ( req = request, res = response ) => {
-
     const inputData = req.body;
 
     try {
@@ -81,19 +79,25 @@ const createProduct = async ( req = request, res = response ) => {
 }
 
 const updateProduct = async ( req = request, res = response ) => {
+    const 
+        productId = req.params.id,
+        inputData = req.body;
 
     try {
+        const data = await updateProductByID( productId, inputData );
+
         res.status( 201 ).json({
             ok: true,
-            path: '/products',
-            msg: 'Actualiza producto'
+            path: `/products/${ productId }`,
+            msg: 'Actualiza producto',
+            product: data
         }); 
     } 
     catch ( error ) {
         console.log( error );
         return res.status( 500 ).json({
             ok: false,
-            path: '/products',
+            path: `/products/${ productId }`,
             msg: 'Error al actualizar producto'
         });    
     }
