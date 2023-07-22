@@ -54,6 +54,23 @@ const getProductById = async ( req = request, res = response ) => {
 
 }
 
+const getProductsByUserId = ( req = request, res = request ) => {
+    try {
+        res.status( 201 ).json({
+            ok: true,
+            path: `/products/user`,
+            msg: 'Obtiene el listado de productos por usuario',
+        }); 
+    } catch (error) {
+        console.log( error );
+        return res.status( 500 ).json({
+            ok: false,
+            path: `/products/user`,
+            msg: 'Error al obtener el listado de productos por usuario'
+        });    
+    }
+}
+
 const createProduct = async ( req = request, res = response ) => {
     const inputData = req.body;
     const userId = req.authUser.uid;
@@ -137,5 +154,6 @@ module.exports = {
     createProduct,
     getProductById,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsByUserId
 }

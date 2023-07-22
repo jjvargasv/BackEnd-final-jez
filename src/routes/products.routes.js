@@ -3,7 +3,7 @@ const { createUser, loginUser, renewToken } = require('../controllers/auth.contr
 const { check } = require('express-validator');
 const validateInputFields = require('../middlewares/validate-input-fields.middleware');
 const { validateToken } = require('../middlewares/validate-jwt.middleware');
-const { getProducts, createProduct, getProductById, updateProduct, deleteProduct } = require('../controllers/product.controller');
+const { getProducts, createProduct, getProductById, updateProduct, deleteProduct, getProductsByUserId } = require('../controllers/product.controller');
 
 const router = Router();
 
@@ -21,6 +21,12 @@ router.get(
 router.get( 
     '/:id', 
     getProductById
+);
+
+// Ruta para obtener todos los productos de un usuario
+router.get( 
+    '/user/:id', 
+    getProductsByUserId
 );
 
 // Ruta para crear producto (Restringida)
