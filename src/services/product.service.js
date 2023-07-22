@@ -14,7 +14,12 @@ const getProductByID = async ( productId ) => {
 }
 
 const getProductByUserID = async ( userId ) => {
-    return await ProductModel.find({ userId });
+    return await ProductModel.find({ userId }, {
+        userId: 0,
+        createdAt: 0,
+        updatedAt: 0,
+        __v: 0
+    });
 }
 
 const removeProductByID = async ( productId ) => {

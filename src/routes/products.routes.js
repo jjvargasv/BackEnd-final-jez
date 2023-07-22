@@ -26,6 +26,7 @@ router.get(
 // Ruta para obtener todos los productos de un usuario
 router.get( 
     '/user/:id', 
+    validateToken,
     getProductsByUserId
 );
 
