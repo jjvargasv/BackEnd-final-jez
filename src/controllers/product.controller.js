@@ -2,7 +2,7 @@ const { response, request } = require( 'express' );
 const { hashSync, genSaltSync, compareSync } = require( 'bcryptjs' );
 
 const { generateToken } = require( '../helpers/jwt.js' );
-const { insertProduct, getAllProducts, getProductByID, updateProductByID, removeProductByID } = require( '../services/product.service' );
+const { insertProduct, getAllProducts, getProductByID, updateProductByID, removeProductByID, getProductByUserID } = require( '../services/product.service' );
 
 const User = require( '../models/User' );
 
@@ -54,18 +54,25 @@ const getProductById = async ( req = request, res = response ) => {
 
 }
 
-const getProductsByUserId = ( req = request, res = request ) => {
+const getProductsByUserId = async ( req = request, res = request ) => {
+    const userId = req.params.id;
+
     try {
+        const data = await getProductByUserID( userId );
+
+        console.log( data );
+
         res.status( 201 ).json({
             ok: true,
-            path: `/products/user`,
+            path: `/products/user/${ userId }`,
             msg: 'Obtiene el listado de productos por usuario',
+            products: data
         }); 
     } catch (error) {
         console.log( error );
         return res.status( 500 ).json({
             ok: false,
-            path: `/products/user`,
+            path: `/products/user/${ userId }`,
             msg: 'Error al obtener el listado de productos por usuario'
         });    
     }

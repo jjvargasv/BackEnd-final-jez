@@ -13,6 +13,10 @@ const getProductByID = async ( productId ) => {
     return await ProductModel.findOne({ _id: productId });
 }
 
+const getProductByUserID = async ( userId ) => {
+    return await ProductModel.find({ userId });
+}
+
 const removeProductByID = async ( productId ) => {
     return await ProductModel.findOneAndRemove({ _id: productId });
 }
@@ -31,5 +35,6 @@ module.exports = {
     getAllProducts,
     getProductByID,
     removeProductByID,
-    updateProductByID
+    updateProductByID,
+    getProductByUserID
 }
