@@ -110,6 +110,12 @@ const updateProduct = async ( req = request, res = response ) => {
         productId = req.params.id,
         inputData = req.body;
 
+        console.group( '----' );
+        console.log( productId );
+        console.log( inputData );
+        console.groupEnd( '----' );
+
+
     try {
         const data = await updateProductByID( productId, inputData );
 

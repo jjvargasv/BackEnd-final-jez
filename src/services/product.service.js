@@ -10,7 +10,12 @@ const getAllProducts = async () => {
 }
 
 const getProductByID = async ( productId ) => {
-    return await ProductModel.findOne({ _id: productId });
+    return await ProductModel.findOne({ _id: productId }, {
+        userId: 0,
+        createdAt: 0,
+        updatedAt: 0,
+        __v: 0
+    });
 }
 
 const getProductByUserID = async ( userId ) => {
