@@ -2,7 +2,9 @@ const ProductModel = require( '../models/Products.js' );
 
 
 const insertProduct = async ( product ) => {
-    return await ProductModel.create( product );
+    const newProduct = new ProductModel( product );
+
+    return await newProduct.save();
 }
 
 const getAllProducts = async () => {
@@ -20,22 +22,21 @@ const getProductByID = async ( productId ) => {
 
 const getProductByUserID = async ( userId ) => {
     return await ProductModel.find({ userId }, {
-        userId: 0,
         createdAt: 0,
         updatedAt: 0,
         __v: 0
     });
 }
 
-const removeProductByID = async ( productId ) => {
-    return await ProductModel.findOneAndRemove({ _id: productId });
+const removeProductByID = async ( productId, userId ) => {
+    return await ProductModel.findOneAndRemove({ _id: productId, userId });
 }
 
-const updateProductByID = async ( productId, updateProduct ) => {
+const updateProductByID = async ( productId, userId,  updateProduct ) => {
     return await ProductModel.findOneAndUpdate( 
-        { _id: productId },     // Id del documento que deseamos actualizar
-        updateProduct,          // El documento por el que vamos a actualizar 
-        { new: true }           // Configuracion para el comando Update
+        { _id: productId, userId },     // Id del documento que deseamos actualizar
+        updateProduct,                  // El documento por el que vamos a actualizar 
+        { new: true }                   // Configuracion para el comando Update
     );
 }
 

@@ -12,7 +12,7 @@ const getProducts = async ( req = request, res = response ) => {
     try {
         const data = await getAllProducts()   // Pendiente
 
-        res.status( 201 ).json({
+        res.status( 200 ).json({
             ok: true,
             path: '/products',
             msg: 'Obtiene todos los productos',
@@ -55,14 +55,15 @@ const getProductById = async ( req = request, res = response ) => {
 }
 
 const getProductsByUserId = async ( req = request, res = request ) => {
-    const userId = req.params.id;
+
+    const userId = req.authUser.uid;
 
     try {
         const data = await getProductByUserID( userId );
 
         console.log( data );
 
-        res.status( 201 ).json({
+        res.status( 200 ).json({
             ok: true,
             path: `/products/user/${ userId }`,
             msg: 'Obtiene el listado de productos por usuario',
@@ -81,11 +82,14 @@ const getProductsByUserId = async ( req = request, res = request ) => {
 const createProduct = async ( req = request, res = response ) => {
     const inputData = req.body;
     const userId = req.authUser.uid;
+    const newProduct = { ...inputData, userId };
+
+    console.log( newProduct );
 
     try {
         inputData.userId = userId;
 
-        const data = await insertProduct( inputData );
+        const data = await insertProduct( newProduct );
 
         res.status( 201 ).json({
             ok: true,
@@ -108,23 +112,28 @@ const createProduct = async ( req = request, res = response ) => {
 const updateProduct = async ( req = request, res = response ) => {
     const 
         productId = req.params.id,
+        userId = req.authUser.uid,
         inputData = req.body;
 
-        console.group( '----' );
-        console.log( productId );
-        console.log( inputData );
-        console.groupEnd( '----' );
-
-
     try {
-        const data = await updateProductByID( productId, inputData );
+        const data = await updateProductByID( productId, userId, inputData );
 
-        res.status( 201 ).json({
-            ok: true,
-            path: `/products/${ productId }`,
-            msg: 'Actualiza producto',
-            product: data
-        }); 
+        if( data ) {
+            res.status( 200 ).json({
+                ok: true,
+                path: `/products/${ productId }`,
+                msg: 'Actualiza producto',
+                product: data
+            }); 
+        }
+        else {
+            return res.status( 404 ).json({
+                ok: false,
+                path: `/products/${ productId }`,
+                msg: 'Producto no encontrado'
+            }); 
+        }
+
     } 
     catch ( error ) {
         console.log( error );
@@ -139,16 +148,27 @@ const updateProduct = async ( req = request, res = response ) => {
 
 const deleteProduct = async ( req = request, res = response ) => {
     const productId = req.params.id;
+    const userId = req.authUser.uid;
 
     try {
-        const data = await removeProductByID( productId );
+        const data = await removeProductByID( productId, userId );
 
-        res.status( 201 ).json({
-            ok: true,
-            path: `/products/${ productId }`,
-            msg: 'Eliminar producto',
-            product: data
-        }); 
+        if( data ) {
+            res.status( 200 ).json({
+                ok: true,
+                path: `/products/${ productId }`,
+                msg: 'Eliminar producto',
+                product: data
+            });    
+        }
+        else {
+            return res.status( 404 ).json({
+                ok: false,
+                path: `/products/${ productId }`,
+                msg: 'Producto no encontrado'
+            });    
+        }
+
     } 
     catch ( error ) {
         console.log( error );

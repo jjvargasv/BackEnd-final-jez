@@ -17,17 +17,17 @@ router.get(
     getProducts
 );
 
+// Ruta para obtener todos los productos de un usuario
+router.get( 
+    '/user', 
+    validateToken,
+    getProductsByUserId
+);
+
 // Ruta para obtener producto por ID
 router.get( 
     '/:id', 
     getProductById
-);
-
-// Ruta para obtener todos los productos de un usuario
-router.get( 
-    '/user/:id', 
-    validateToken,
-    getProductsByUserId
 );
 
 // Ruta para crear producto (Restringida)
