@@ -1,8 +1,8 @@
 const ProductModel = require( '../models/Products.js' );
 
 
-const insertProduct = async ( product ) => {
-    const newProduct = new ProductModel( product );
+const insertProduct = async ( dataProduct ) => {
+    const newProduct = new ProductModel( dataProduct );
 
     return await newProduct.save();
 }
@@ -32,7 +32,7 @@ const removeProductByID = async ( productId, userId ) => {
     return await ProductModel.findOneAndRemove({ _id: productId, userId });
 }
 
-const updateProductByID = async ( productId, userId,  updateProduct ) => {
+const updateProductByID = async ( productId, userId, updateProduct ) => {
     return await ProductModel.findOneAndUpdate( 
         { _id: productId, userId },     // Id del documento que deseamos actualizar
         updateProduct,                  // El documento por el que vamos a actualizar 

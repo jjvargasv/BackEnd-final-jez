@@ -1,11 +1,22 @@
 const { Router } = require( 'express' );
-const { createUser, loginUser, renewToken } = require('../controllers/auth.controller');
-const { check } = require('express-validator');
-const validateInputFields = require('../middlewares/validate-input-fields.middleware');
+
 const { validateToken } = require('../middlewares/validate-jwt.middleware');
 const { getProducts, createProduct, getProductById, updateProduct, deleteProduct, getProductsByUserId } = require('../controllers/product.controller');
 
+const {  multerMiddleware  } = require( '../middlewares/upload-file.middleware.js' );
+
 const router = Router();
+
+
+const testUpload = (req, res, next) => {
+    multerMiddleware.single('urlImage')(req, res, (err) => {
+      if (err) {
+        console.log('Multer error:', err);
+      }
+      next();
+    });
+  };
+
 
 /** 
  * Ruta actual: http://localhost:5000/api/products
@@ -34,6 +45,7 @@ router.get(
 router.post( 
     '/', 
     validateToken,
+    multerMiddleware.single( 'urlImage' ),
     createProduct
 );
 
@@ -41,6 +53,7 @@ router.post(
 router.patch( 
     '/:id', 
     validateToken,
+    multerMiddleware.single( 'urlImage' ),
     updateProduct
 );
 
