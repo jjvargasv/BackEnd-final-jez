@@ -1,5 +1,6 @@
 /** La estructura que definamos aqui se vera reflejada en nuestra base de datos */
-const { Schema, model } = require( 'mongoose' );
+const mongoose = require( 'mongoose' );
+const { Schema, model } = mongoose;
 
 
 /** Define estructura de datos en la base de datos requerida por Mongoose*/
@@ -41,7 +42,8 @@ const productSchema = new Schema(
     },
     // Definira configuraciones que se pueden aplicar en Mongoose para ese objeto
     {
-        timestamps: true
+        timestamps: true,
+        collection: 'products'
     }
 );
 

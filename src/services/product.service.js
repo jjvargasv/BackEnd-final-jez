@@ -7,6 +7,17 @@ const insertProduct = async ( dataProduct ) => {
     return await newProduct.save();
 }
 
+const insert2Product = async ( dataProduct ) => {
+    console.log( dataProduct );
+
+    const newProduct = new ProductModel({
+        _id: new mongoose.Types.ObjectId(),
+        ...dataProduct
+    });
+
+    return await newProduct.save();
+}
+
 const getAllProducts = async () => {
     return await ProductModel.find({});
 }
@@ -47,5 +58,6 @@ module.exports = {
     getProductByID,
     removeProductByID,
     updateProductByID,
-    getProductByUserID
+    getProductByUserID,
+    insert2Product
 }

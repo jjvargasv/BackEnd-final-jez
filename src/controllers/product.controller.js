@@ -5,7 +5,7 @@ const { hashSync, genSaltSync, compareSync } = require( 'bcryptjs' );
 const path = require( 'path' );
 
 const { generateToken } = require( '../helpers/jwt.js' );
-const { insertProduct, getAllProducts, getProductByID, updateProductByID, removeProductByID, getProductByUserID } = require( '../services/product.service' );
+const { insertProduct, getAllProducts, getProductByID, updateProductByID, removeProductByID, getProductByUserID, insert2Product } = require( '../services/product.service' );
 const { PATH_STORAGE } = require( '../middlewares/upload-file.middleware.js' );
 
 
@@ -131,6 +131,41 @@ const createProduct = async ( req = request, res = response ) => {
 
 }
 
+const create2Product = async ( req = request, res = response ) => {
+    const URL =`${ req.protocol }://${ req.get( 'host' )}`;
+    const userId = req.authUser.uid;
+
+    const inputData = req.body;
+
+    const newProduct = {
+        ...inputData,
+        userId,
+        urlImage: `${ URL }/uploads/${ req.file.filename }`
+    }
+
+    try {
+        const data = await insertProduct( newProduct );
+    
+        // Devuelve una respuesta adecuada al cliente
+        res.status( 200 ).json({
+            ok: true,
+            path: '/products',
+            msg: 'Producto creado exitosamente',
+            product: data
+        }); 
+    } 
+    catch ( error ) {
+        console.log( error );
+        return res.status( 500 ).json({
+            ok: false,
+            path: '/products',
+            msg: 'Error al crear producto'
+        });   
+    }
+
+
+}
+
 const updateProduct = async ( req = request, res = response ) => {
     const 
         productId = req.params.id,
@@ -230,5 +265,6 @@ module.exports = {
     getProductById,
     updateProduct,
     deleteProduct,
-    getProductsByUserId
+    getProductsByUserId,
+    create2Product
 }
