@@ -137,14 +137,26 @@ const create2Product = async ( req = request, res = response ) => {
 
     const inputData = req.body;
 
+    console.log(req.body);
+
     const newProduct = {
-        ...inputData,
+        name: inputData.name,
+        price: Number( inputData.price ),
+        description: inputData.description,
+        category: inputData.category,
+        quantity: Number( inputData.quantity ),
         userId,
         urlImage: `${ URL }/uploads/${ req.file.filename }`
-    }
+    };
+
+    // const newProduct = {
+    //     ...inputData,
+    //     userId,
+    //     urlImage: `${ URL }/uploads/${ req.file.filename }`
+    // }
 
     try {
-        const data = await insertProduct( newProduct );
+        const data = await insert2Product( newProduct );
     
         // Devuelve una respuesta adecuada al cliente
         res.status( 200 ).json({

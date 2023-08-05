@@ -10,10 +10,7 @@ const insertProduct = async ( dataProduct ) => {
 const insert2Product = async ( dataProduct ) => {
     console.log( dataProduct );
 
-    const newProduct = new ProductModel({
-        _id: new mongoose.Types.ObjectId(),
-        ...dataProduct
-    });
+    const newProduct = new ProductModel(dataProduct);
 
     return await newProduct.save();
 }
