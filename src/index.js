@@ -22,7 +22,7 @@ app.use( '/api/auth', require( './routes/auth.routes' ) );
 app.use( '/api/products', require( './routes/products.routes' ) );
 app.use( '/api/categories', require( './routes/categories.routes' ) );
 app.use( '/api/resena', require( './routes/resenas.routes' ) );
-
+app.use( '/api/servicios', require( './routes/servicios.routes' ) );
 dbConnection();                 // Invoca la inicializacion de la base de datos
 
 app.listen( PORT, () => {
