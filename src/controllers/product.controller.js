@@ -70,7 +70,7 @@ const getProductsByUserId = async ( req = request, res = request ) => {
 
         res.status( 200 ).json({
             ok: true,
-            path: `/products/user/${ userId }`,
+            path: `/products/user`,
             msg: 'Obtiene el listado de productos por usuario',
             products: data
         }); 
