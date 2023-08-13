@@ -1,7 +1,7 @@
 const { Router } = require( 'express' );
 
 const { validateToken } = require('../middlewares/validate-jwt.middleware');
-const { getProducts, create2Product, getProductById, updateProduct, deleteProduct, getProductsByUserId } = require('../controllers/product.controller');
+const { getProducts, create2Product, getProductById, updateProduct, deleteProduct, getProductsByUserId, obtenerProductosPorCategoria } = require('../controllers/product.controller');
 
 const {  multerMiddleware  } = require( '../middlewares/upload-file.middleware.js' );
 
@@ -34,6 +34,8 @@ router.get(
     validateToken,
     getProductsByUserId
 );
+
+router.get('/categoria/:categoria',obtenerProductosPorCategoria);
 
 // Ruta para obtener producto por ID
 router.get( 

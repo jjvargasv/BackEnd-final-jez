@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { obtenerServicios, actualizaServicios, eliminaServicios, creaServicio } = require('../controllers/servicio.controller');
+const { obtenerServicios, actualizaServicios, eliminaServicios, creaServicio} = require('../controllers/servicio.controller');
 const { validate } = require('../models/Servicio');
 const { validateToken } = require('../middlewares/validate-jwt.middleware');
 

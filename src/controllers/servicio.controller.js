@@ -1,4 +1,6 @@
-const { createServicio, getServicios, deleteServicio } = require("../services/servicio.service");
+const Category = require("../models/Category");
+const { getCategoryByName } = require("../services/category.service");
+const { createServicio, getServicios, deleteServicio, getServiciosPorCategoria } = require("../services/servicio.service");
 
 const creaServicio = async (req, res) => {
     const datoDeEntrada = req.body
@@ -63,9 +65,12 @@ const eliminaServicios = async (req, res) => {
 };
 const actualizaServicios = (req, res) => {};
 
+
+
 module.exports = {
   creaServicio,
   obtenerServicios,
   eliminaServicios,
-  actualizaServicios,
+  actualizaServicios
+  
 };

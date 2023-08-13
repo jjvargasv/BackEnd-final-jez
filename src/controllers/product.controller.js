@@ -5,11 +5,12 @@ const { hashSync, genSaltSync, compareSync } = require( 'bcryptjs' );
 const path = require( 'path' );
 
 const { generateToken } = require( '../helpers/jwt.js' );
-const { insertProduct, getAllProducts, getProductByID, updateProductByID, removeProductByID, getProductByUserID, insert2Product } = require( '../services/product.service' );
+const { insertProduct, getAllProducts, getProductByID, updateProductByID, removeProductByID, getProductByUserID, insert2Product, getProductsByCategory } = require( '../services/product.service' );
 const { PATH_STORAGE } = require( '../middlewares/upload-file.middleware.js' );
 
 
 const User = require( '../models/User' );
+const { getCategoryByName } = require('../services/category.service.js');
 
 
 const getProducts = async ( req = request, res = response ) => {
@@ -270,6 +271,46 @@ const deleteProduct = async ( req = request, res = response ) => {
 
 }
 
+const obtenerProductosPorCategoria = async (req,res) =>{
+    const categoria = req.params.categoria
+    console.log(categoria)
+    try {
+        //verificar si exiate la categoria//
+         const data = await getCategoryByName(categoria)
+
+         if (data == null){
+            return res.status(404).json({
+                ok: false,
+                'msg': 'la categoria no existe'
+            })
+        
+
+         }
+         //buscar registros por categoria//
+        
+         const listaData = await getProductsByCategory(categoria)
+         console.log(listaData)
+
+
+        res.status(200).json({
+            ok: true,
+            'msg': categoria,
+            productos:listaData
+
+        })
+        
+
+        
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            ok: false,
+            'msg': 'Error al mostrar la lista por categoria'
+        })
+        
+    }
+}
+
 
 module.exports = {
     getProducts,
@@ -278,5 +319,7 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getProductsByUserId,
-    create2Product
+    create2Product,
+    obtenerProductosPorCategoria
+
 }

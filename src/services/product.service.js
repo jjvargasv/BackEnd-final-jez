@@ -47,6 +47,9 @@ const updateProductByID = async ( productId, userId, updateProduct ) => {
         { new: true }                   // Configuracion para el comando Update
     );
 }
+const getProductsByCategory = (categoria)=>{
+    return ProductModel.find({category:categoria});
+  }
 
 
 module.exports = {
@@ -56,5 +59,6 @@ module.exports = {
     removeProductByID,
     updateProductByID,
     getProductByUserID,
-    insert2Product
+    insert2Product,
+    getProductsByCategory
 }

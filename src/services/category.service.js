@@ -5,6 +5,10 @@ const getAllCategories = async () => {
     return await Category.find({});
 }
 
+const getCategoryByName = async ( name ) => {
+    return await Category.findOne({ name });
+}
+
 // category: { name: '', description: '' }
 const insertCategory = async ( category ) => {
     return await Category.create( category );
@@ -32,5 +36,6 @@ module.exports = {
     getAllCategories,
     insertCategory,
     reformCategory,
-    removeCategory
+    removeCategory,
+    getCategoryByName
 }

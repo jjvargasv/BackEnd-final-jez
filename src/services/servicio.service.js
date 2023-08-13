@@ -17,9 +17,14 @@ const updateServicio = async (id, dataUpdate) => {
   return await Servicios.findOneAndUpdate({ _id: id }, dataUpdate, { new: true });
 };
 
+const getServiciosPorCategoria = (categoria)=>{
+  return Servicios.find({category:categoria});
+}
+
 module.exports = {
   createServicio,
   getServicios,
   deleteServicio,
   updateServicio,
+  getServiciosPorCategoria
 };
