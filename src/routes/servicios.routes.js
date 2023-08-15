@@ -7,8 +7,8 @@ const router = Router()
 
 router.get('/', obtenerServicios)
 router.post('/', validateToken, creaServicio)
-router.patch('/:id', actualizaServicios)
-router.delete('/:id',eliminaServicios)
+router.patch('/:id',validateToken, actualizaServicios)
+router.delete('/:id', validateToken,eliminaServicios)
 
 
 module.exports = router

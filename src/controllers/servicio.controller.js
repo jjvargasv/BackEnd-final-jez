@@ -1,6 +1,6 @@
 const Category = require("../models/Category");
 const { getCategoryByName } = require("../services/category.service");
-const { createServicio, getServicios, deleteServicio, getServiciosPorCategoria } = require("../services/servicio.service");
+const { createServicio, getServicios, deleteServicio, getServiciosPorCategoria, updateServicio } = require("../services/servicio.service");
 
 const creaServicio = async (req, res) => {
     const datoDeEntrada = req.body
@@ -63,7 +63,28 @@ const eliminaServicios = async (req, res) => {
         
     }
 };
-const actualizaServicios = (req, res) => {};
+const actualizaServicios = async (req, res) => {
+    const idActualizar = req.params.id
+    const datoDeEntrada = req.body
+
+    try {
+       const servicioActualizado = await updateServicio(idActualizar, datoDeEntrada)
+       res.status(200).json({
+        ok:true,
+        servicio: servicioActualizado
+       })
+        
+
+        
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            ok: false,
+            'msg': 'Error al actualizar servicio'
+        })
+        
+    }
+};
 
 
 
