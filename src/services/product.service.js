@@ -47,6 +47,23 @@ const updateProductByID = async ( productId, userId, updateProduct ) => {
         { new: true }                   // Configuracion para el comando Update
     );
 }
+
+const buscadorByTerm = async ( buscadorTerm )=>{
+
+    if(buscadorTerm){
+        const termRegex = new RegExp( buscadorTerm, 'i' );
+   
+        return await ProductModel.find({
+          $or: [
+            { name: { $regex: termRegex } }
+          ],
+        });
+    }else{
+        return await ProductModel.find({});
+    }
+  
+  }
+
 const getProductsByCategory = (categoria)=>{
     return ProductModel.find({category:categoria});
   }
@@ -60,5 +77,6 @@ module.exports = {
     updateProductByID,
     getProductByUserID,
     insert2Product,
-    getProductsByCategory
+    getProductsByCategory,
+    buscadorByTerm    
 }

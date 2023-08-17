@@ -13,10 +13,6 @@ const getCategoryByName = async ( name ) => {
 const insertCategory = async ( category ) => {
     return await Category.create( category );
 }
-// const insertCategory = async ( category ) => {
-//     const createCategory = await Category( category );
-//     createCategory.save();
-// }
 
 const reformCategory = async ( categoryId, updateData ) => {
     return await Category.findOneAndUpdate(

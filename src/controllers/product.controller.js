@@ -14,6 +14,7 @@ const {
   getProductByUserID,
   insert2Product,
   getProductsByCategory,
+  buscadorByTerm
 } = require("../services/product.service");
 const { PATH_STORAGE } = require("../middlewares/upload-file.middleware.js");
 
@@ -258,6 +259,29 @@ const deleteProduct = async (req = request, res = response) => {
   }
 };
 
+const buscadorPro = async(req = request, res = response)=>{
+  const term = req.params.term || '';
+
+  try {
+      const data = await buscadorByTerm( term );
+
+      res.status( 201 ).json({
+          ok: true,
+          path: '/products',
+          msg: 'busca productos  por termino',
+          products: data
+      }); 
+  } 
+  catch ( error ) {
+      console.log( error );
+      return res.status( 500 ).json({
+          ok: false,
+          path: '/products',
+          msg: 'Error al buscar  producto por termino'
+      });    
+  }
+}
+
 const obtenerProductosPorCategoria = async (req, res) => {
   const categoria = req.params.categoria;
   console.log(categoria);
@@ -299,4 +323,5 @@ module.exports = {
   getProductsByUserId,
   create2Product,
   obtenerProductosPorCategoria,
+  buscadorPro,
 };

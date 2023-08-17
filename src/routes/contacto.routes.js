@@ -1,35 +1,35 @@
-const { Router } = require( 'express' );;
-const { getCategories, createCategory, updateCategory, deleteCategory } = require('../controllers/category.controller');
+const { Router } = require( 'express' );
+const { getContacto, createContacto, updateContacto, deleteContacto } = require('../controllers/contacto.controller');
 
 const router = Router();
 
 /** 
- * Ruta actual: http://localhost:5000/api/categories
+ * Ruta actual: http://localhost:5000/api/contactos
  */
 
 // Ruta para obtener todos las categorias
 router.get( 
     '/', 
-    getCategories
+    getContacto
 );
 
 
 // Ruta para crear categoria (Restringida)
 router.post( 
     '/', 
-    createCategory
+    createContacto
 );
 
 // Ruta para actualizar categoria (Restringida)
 router.patch( 
     '/:id', 
-    updateCategory
+    updateContacto
 );
 
 // Ruta para eliminar categoria (Restringida)
 router.delete( 
     '/:id', 
-    deleteCategory
+    deleteContacto
 );
 
 
